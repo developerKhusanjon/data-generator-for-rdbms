@@ -1,15 +1,17 @@
 package io.exadot.exadotdatafaker.service.impl;
 
 import io.exadot.exadotdatafaker.controller.exceptions.BadRequestAlertException;
-import io.exadot.exadotdatafaker.entity.TableEntity;
+import io.exadot.exadotdatafaker.entity.db.TableEntity;
 import io.exadot.exadotdatafaker.repo.TableRepository;
 import io.exadot.exadotdatafaker.service.FieldService;
 import io.exadot.exadotdatafaker.service.TableService;
 import io.exadot.exadotdatafaker.service.dto.*;
+import io.exadot.exadotdatafaker.service.dto.db.FieldDto;
+import io.exadot.exadotdatafaker.service.dto.db.NewTableDto;
+import io.exadot.exadotdatafaker.service.dto.db.TableDto;
+import io.exadot.exadotdatafaker.service.dto.db.UpdateTableDto;
 import io.exadot.exadotdatafaker.service.mapper.TableMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,8 +52,8 @@ public class TableServiceImpl implements TableService {
     }
 
     @Override
-    public FieldDto getField(Long fieldId) throws BadRequestAlertException {
-        return fieldService.findById(fieldId);
+    public FieldDto getField(Long fieldId, Long tableId) throws BadRequestAlertException {
+        return fieldService.findById(fieldId, tableId);
     }
 
     @Override
@@ -84,8 +86,8 @@ public class TableServiceImpl implements TableService {
     }
 
     @Override
-    public FieldDto updateTableField(FieldDto field) throws BadRequestAlertException {
-        return fieldService.updateField(field);
+    public FieldDto updateTableField(FieldDto field, Long tableId) throws BadRequestAlertException {
+        return fieldService.updateField(field, tableId);
     }
 
     @Transactional
@@ -97,7 +99,10 @@ public class TableServiceImpl implements TableService {
     }
 
     @Override
-    public AlertResponseDto removeTableField(Long fieldId) {
+    public AlertResponseDto removeTableField(Long fieldId, Long tableId) throws BadRequestAlertException {
+        if (fieldService.checkByIdAndTableId(fieldId, tableId))
+            throw new BadRequestAlertException(
+                    "Field not exist in this table", "Field", "fieldId - " + fieldId + "   tableId - " + tableId, HttpStatus.NOT_FOUND);
         return fieldService.deleteById(fieldId);
     }
 

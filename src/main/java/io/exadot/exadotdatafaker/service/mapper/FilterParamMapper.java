@@ -1,7 +1,7 @@
 package io.exadot.exadotdatafaker.service.mapper;
 
-import io.exadot.exadotdatafaker.entity.FilterParam;
-import io.exadot.exadotdatafaker.service.dto.FilterParamsDto;
+import io.exadot.exadotdatafaker.entity.db.FilterParam;
+import io.exadot.exadotdatafaker.service.dto.db.FilterParamsDto;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 

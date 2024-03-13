@@ -1,4 +1,4 @@
-package io.exadot.exadotdatafaker.service.dto;
+package io.exadot.exadotdatafaker.service.dto.db;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package io.exadot.exadotdatafaker.service.dto;
+package io.exadot.exadotdatafaker.service.dto.db;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Props {
+public class DBProps {
     @NotNull
     private DataSourceDto dataSource;
     @NotNull

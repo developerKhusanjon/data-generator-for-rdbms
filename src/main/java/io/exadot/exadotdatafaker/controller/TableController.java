@@ -3,6 +3,10 @@ package io.exadot.exadotdatafaker.controller;
 import io.exadot.exadotdatafaker.controller.exceptions.BadRequestAlertException;
 import io.exadot.exadotdatafaker.service.TableService;
 import io.exadot.exadotdatafaker.service.dto.*;
+import io.exadot.exadotdatafaker.service.dto.db.FieldDto;
+import io.exadot.exadotdatafaker.service.dto.db.NewTableDto;
+import io.exadot.exadotdatafaker.service.dto.db.TableDto;
+import io.exadot.exadotdatafaker.service.dto.db.UpdateTableDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -11,8 +15,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -85,13 +87,13 @@ public class TableController {
                             examples = {@ExampleObject(value = "{name:'name is required'...}")})),
             @ApiResponse(responseCode = "400", description = "Other situations throw  BadRequestAlert exception",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestAlertException.class)))})
-    @PutMapping("/fields")
-    public ResponseEntity<FieldDto> updateTableField(@RequestBody @Valid FieldDto field) throws BadRequestAlertException {
+    @PutMapping("/{id}/fields")
+    public ResponseEntity<FieldDto> updateTableField(@PathVariable Long id, @RequestBody @Valid FieldDto field) throws BadRequestAlertException {
         if(field.getId() == null){
             throw new BadRequestAlertException("Field Id must not be null", "Field","id");
         }
 
-        return ResponseEntity.ok(tableService.updateTableField(field));
+        return ResponseEntity.ok(tableService.updateTableField(field, id));
     }
 
     @Operation(description = "Get one table")
@@ -125,9 +127,9 @@ public class TableController {
                             schema = @Schema(implementation = FieldDto.class))}),
             @ApiResponse(responseCode = "404", description = "Not found BadRequestAlert exception",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestAlertException.class)))})
-    @GetMapping("/fields/{id}")
-    public ResponseEntity<FieldDto> getField(@PathVariable Long id) throws BadRequestAlertException {
-        return ResponseEntity.ok(tableService.getField(id));
+    @GetMapping("/{id}/fields/{fieldId}")
+    public ResponseEntity<FieldDto> getField(@PathVariable Long id, @PathVariable Long fieldId) throws BadRequestAlertException {
+        return ResponseEntity.ok(tableService.getField(id, fieldId));
     }
 
     @Operation(description = "Delete table")
@@ -149,9 +151,9 @@ public class TableController {
                             schema = @Schema(implementation = AlertResponseDto.class))}),
             @ApiResponse(responseCode = "404", description = "Not found BadRequestAlert exception",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestAlertException.class)))})
-    @DeleteMapping("/fields/{id}")
-    public ResponseEntity<AlertResponseDto> removeTableField(@PathVariable Long id) {
-        return ResponseEntity.ok(tableService.removeTableField(id));
+    @DeleteMapping("/{id}/fields/{fieldId}")
+    public ResponseEntity<AlertResponseDto> removeTableField(@PathVariable Long id, @PathVariable Long fieldId) throws BadRequestAlertException {
+        return ResponseEntity.ok(tableService.removeTableField(id, fieldId));
     }
 
 }

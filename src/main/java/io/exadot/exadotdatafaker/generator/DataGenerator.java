@@ -1,11 +1,9 @@
 package io.exadot.exadotdatafaker.generator;
 
-import io.exadot.exadotdatafaker.entity.Field;
-import io.exadot.exadotdatafaker.entity.FilterParam;
 import io.exadot.exadotdatafaker.controller.exceptions.InvalidFakerResources;
 import io.exadot.exadotdatafaker.controller.exceptions.ResourceNotFoundException;
-import io.exadot.exadotdatafaker.service.dto.FieldDto;
-import io.exadot.exadotdatafaker.service.dto.FilterParamsDto;
+import io.exadot.exadotdatafaker.service.dto.db.FieldDto;
+import io.exadot.exadotdatafaker.service.dto.db.FilterParamsDto;
 import io.exadot.exadotdatafaker.service.dto.enums.FilterParamStatus;
 import net.datafaker.Faker;
 
@@ -21,8 +19,8 @@ public class DataGenerator {
         List<Map<String, Object>> result = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
-
             Map<String, Object> data = new LinkedHashMap<>();
+
             for (FieldDto value : fields) {
                 String type = value.getGenerateBaseType();
                 String field = value.getGenerateValue();
@@ -72,8 +70,8 @@ public class DataGenerator {
 
                 Optional<Method> matchMethods = Arrays.stream(Arrays.stream(methods.orElseThrow(
                                 () -> new InvalidFakerResources("Method " + fName + " not found"))).toArray(Method[]::new))
-                        .filter(method -> isParameterMatch(method.getParameterTypes(),
-                                expectedParams)).findFirst();
+                        .filter(method
+                                -> isParameterMatch(method.getParameterTypes(), expectedParams)).findFirst();
 
                 matchMethods.orElseThrow(() ->
                         new InvalidFakerResources("Method " + fName + " not found")).setAccessible(true);

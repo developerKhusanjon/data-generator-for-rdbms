@@ -1,8 +1,7 @@
-package io.exadot.exadotdatafaker.service.dto;
+package io.exadot.exadotdatafaker.service.dto.generator;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,11 +13,12 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class NewTableDto {
-    @Positive
-    private Long dataSourceId;
+public class DataTypeDto {
+    private Long id;
     @NotBlank
-    private String tableName;
-    @NotBlank
-    private String generatedKey;
+    private String name;
+    private String description;
+
+    @NotEmpty
+    private List<DataFieldDto> fields;
 }

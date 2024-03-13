@@ -1,4 +1,4 @@
-package io.exadot.exadotdatafaker.service.dto;
+package io.exadot.exadotdatafaker.service.dto.db;
 
 import io.exadot.exadotdatafaker.service.dto.enums.FilterParamStatus;
 import jakarta.validation.constraints.NotBlank;

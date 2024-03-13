@@ -1,4 +1,4 @@
-package io.exadot.exadotdatafaker.service.dto;
+package io.exadot.exadotdatafaker.service.dto.db;
 
 
 import io.exadot.exadotdatafaker.entity.enums.DatabaseType;

@@ -2,10 +2,8 @@ package io.exadot.exadotdatafaker.service;
 
 import io.exadot.exadotdatafaker.controller.exceptions.BadRequestAlertException;
 import io.exadot.exadotdatafaker.service.dto.AlertResponseDto;
-import io.exadot.exadotdatafaker.service.dto.DataSourceDto;
-import io.exadot.exadotdatafaker.service.dto.TableDto;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import io.exadot.exadotdatafaker.service.dto.db.DataSourceDto;
+import io.exadot.exadotdatafaker.service.dto.db.TableDto;
 
 import java.util.List;
 

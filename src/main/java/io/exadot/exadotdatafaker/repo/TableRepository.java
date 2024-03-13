@@ -1,8 +1,6 @@
 package io.exadot.exadotdatafaker.repo;
 
-import io.exadot.exadotdatafaker.entity.TableEntity;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import io.exadot.exadotdatafaker.entity.db.TableEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,19 +1,18 @@
 package io.exadot.exadotdatafaker.service.impl;
 
 import io.exadot.exadotdatafaker.controller.exceptions.BadRequestAlertException;
-import io.exadot.exadotdatafaker.entity.Field;
-import io.exadot.exadotdatafaker.entity.FilterParam;
-import io.exadot.exadotdatafaker.entity.TableEntity;
+import io.exadot.exadotdatafaker.entity.db.Field;
+import io.exadot.exadotdatafaker.entity.db.FilterParam;
+import io.exadot.exadotdatafaker.entity.db.TableEntity;
 import io.exadot.exadotdatafaker.repo.FieldRepository;
 import io.exadot.exadotdatafaker.repo.FilterParamRepository;
 import io.exadot.exadotdatafaker.repo.TableRepository;
 import io.exadot.exadotdatafaker.service.FieldService;
 import io.exadot.exadotdatafaker.service.dto.AlertResponseDto;
-import io.exadot.exadotdatafaker.service.dto.FieldDto;
+import io.exadot.exadotdatafaker.service.dto.db.FieldDto;
 import io.exadot.exadotdatafaker.service.dto.enums.FilterParamStatus;
 import io.exadot.exadotdatafaker.service.mapper.FieldMapper;
 import io.exadot.exadotdatafaker.service.mapper.FilterParamMapper;
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -38,10 +37,11 @@ public class FieldServiceImpl implements FieldService {
     }
 
     @Override
-    public FieldDto findById(Long id) throws BadRequestAlertException {
-        Optional<Field> field = fieldRepository.findById(id);
+    public FieldDto findById(Long id, Long tableId) throws BadRequestAlertException {
+        Optional<Field> field = fieldRepository.findByIdAndTableId(id, tableId);
         if (field.isEmpty())
-            throw new BadRequestAlertException("Field not found", "Field", "id", HttpStatus.NOT_FOUND);
+            throw new BadRequestAlertException(
+                    "Field not exist in this table", "Field", "fieldId - " + id + "   tableId - " + tableId, HttpStatus.NOT_FOUND);
 
         FieldDto fieldDto = fieldMapper.toDto(field.get());
         fieldDto.setFilterParams(
@@ -66,10 +66,11 @@ public class FieldServiceImpl implements FieldService {
 
     @Transactional
     @Override
-    public FieldDto updateField(FieldDto fieldDto) throws BadRequestAlertException {
-        Optional<Field> field = fieldRepository.findById(fieldDto.getId());
+    public FieldDto updateField(FieldDto fieldDto, Long tableId) throws BadRequestAlertException {
+        Optional<Field> field = fieldRepository.findByIdAndTableId(fieldDto.getId(), tableId);
         if (field.isEmpty())
-            throw new BadRequestAlertException("Field not found", "Field", "id", HttpStatus.NOT_FOUND);
+            throw new BadRequestAlertException(
+                    "Field not exist in this table", "Field", "fieldId - " + fieldDto.getId() + "   tableId - " + tableId, HttpStatus.NOT_FOUND);
 
         field.get().setFieldName(fieldDto.getFieldName());
         field.get().setFieldStatus(fieldDto.getFieldStatus());
@@ -90,6 +91,11 @@ public class FieldServiceImpl implements FieldService {
         filterParamRepository.deleteAllByFieldId(id);
         fieldRepository.deleteById(id);
         return new AlertResponseDto("Field deleted successfully", true);
+    }
+
+    @Override
+    public boolean checkByIdAndTableId(Long fieldId, Long tableId) {
+        return fieldRepository.existsByIdAndTableId(fieldId, tableId);
     }
 
     private void saveFilterParams(Field field, List<FilterParam> filterParams) throws BadRequestAlertException {

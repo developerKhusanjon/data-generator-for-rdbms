@@ -1,17 +1,15 @@
 package io.exadot.exadotdatafaker.service.impl;
 
 import io.exadot.exadotdatafaker.controller.exceptions.BadRequestAlertException;
-import io.exadot.exadotdatafaker.entity.DataSourceEntity;
+import io.exadot.exadotdatafaker.entity.db.DataSourceEntity;
 import io.exadot.exadotdatafaker.repo.DataSourceRepository;
 import io.exadot.exadotdatafaker.service.DataSourceService;
 import io.exadot.exadotdatafaker.service.TableService;
 import io.exadot.exadotdatafaker.service.dto.AlertResponseDto;
-import io.exadot.exadotdatafaker.service.dto.DataSourceDto;
-import io.exadot.exadotdatafaker.service.dto.TableDto;
+import io.exadot.exadotdatafaker.service.dto.db.DataSourceDto;
+import io.exadot.exadotdatafaker.service.dto.db.TableDto;
 import io.exadot.exadotdatafaker.service.mapper.DataSourceMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

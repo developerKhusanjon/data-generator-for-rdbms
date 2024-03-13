@@ -2,8 +2,10 @@ package io.exadot.exadotdatafaker.service;
 
 import io.exadot.exadotdatafaker.controller.exceptions.BadRequestAlertException;
 import io.exadot.exadotdatafaker.service.dto.*;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import io.exadot.exadotdatafaker.service.dto.db.FieldDto;
+import io.exadot.exadotdatafaker.service.dto.db.NewTableDto;
+import io.exadot.exadotdatafaker.service.dto.db.TableDto;
+import io.exadot.exadotdatafaker.service.dto.db.UpdateTableDto;
 
 import java.util.List;
 
@@ -14,7 +16,7 @@ public interface TableService {
 
     List<FieldDto> getTableFields(Long tableId);
 
-    FieldDto getField(Long fieldId) throws BadRequestAlertException;
+    FieldDto getField(Long fieldId, Long tableId) throws BadRequestAlertException;
 
     TableDto createTable(NewTableDto newTableDto) throws BadRequestAlertException;
 
@@ -22,11 +24,11 @@ public interface TableService {
 
     FieldDto createTableField(Long tableId, FieldDto field) throws BadRequestAlertException;
 
-    FieldDto updateTableField(FieldDto field) throws BadRequestAlertException;
+    FieldDto updateTableField(FieldDto field, Long tableId) throws BadRequestAlertException;
 
     AlertResponseDto deleteTable(Long id);
 
-    AlertResponseDto removeTableField(Long fieldId);
+    AlertResponseDto removeTableField(Long fieldId, Long tableId) throws BadRequestAlertException;
 
     boolean checkByDataSourceId(Long id);
 }
