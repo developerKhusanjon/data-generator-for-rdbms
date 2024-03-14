@@ -1,4 +1,4 @@
-package io.exadot.exadotdatafaker.service.dto.db;
+package io.exadot.exadotdatafaker.service.dto.datasource;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

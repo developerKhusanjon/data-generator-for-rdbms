@@ -1,7 +1,6 @@
 package io.exadot.exadotdatafaker.repo;
 
-import io.exadot.exadotdatafaker.entity.db.Field;
-import io.exadot.exadotdatafaker.entity.db.TableEntity;
+import io.exadot.exadotdatafaker.entity.datasource.Field;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

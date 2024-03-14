@@ -1,4 +1,4 @@
-package io.exadot.exadotdatafaker.entity.generator;
+package io.exadot.exadotdatafaker.entity.category;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,14 +11,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class DataType {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
+    private String value;
     private String description;
 
     @OneToMany(mappedBy = "dataType", cascade = {CascadeType.ALL})
-    private List<DataField> fields;
+    private List<CategoryType> categoryTypes;
 }

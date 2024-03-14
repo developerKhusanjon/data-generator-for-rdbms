@@ -1,4 +1,4 @@
-package io.exadot.exadotdatafaker.entity.db;
+package io.exadot.exadotdatafaker.entity.datasource;
 
 import jakarta.persistence.*;
 import lombok.*;

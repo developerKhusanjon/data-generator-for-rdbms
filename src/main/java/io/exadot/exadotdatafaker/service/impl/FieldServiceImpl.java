@@ -1,22 +1,22 @@
 package io.exadot.exadotdatafaker.service.impl;
 
 import io.exadot.exadotdatafaker.controller.exceptions.BadRequestAlertException;
-import io.exadot.exadotdatafaker.entity.db.Field;
-import io.exadot.exadotdatafaker.entity.db.FilterParam;
-import io.exadot.exadotdatafaker.entity.db.TableEntity;
+import io.exadot.exadotdatafaker.entity.datasource.Field;
+import io.exadot.exadotdatafaker.entity.datasource.FilterParam;
+import io.exadot.exadotdatafaker.entity.datasource.TableEntity;
 import io.exadot.exadotdatafaker.repo.FieldRepository;
 import io.exadot.exadotdatafaker.repo.FilterParamRepository;
 import io.exadot.exadotdatafaker.repo.TableRepository;
 import io.exadot.exadotdatafaker.service.FieldService;
 import io.exadot.exadotdatafaker.service.dto.AlertResponseDto;
-import io.exadot.exadotdatafaker.service.dto.db.FieldDto;
+import io.exadot.exadotdatafaker.service.dto.datasource.FieldDto;
 import io.exadot.exadotdatafaker.service.dto.enums.FilterParamStatus;
 import io.exadot.exadotdatafaker.service.mapper.FieldMapper;
 import io.exadot.exadotdatafaker.service.mapper.FilterParamMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -98,7 +98,7 @@ public class FieldServiceImpl implements FieldService {
         return fieldRepository.existsByIdAndTableId(fieldId, tableId);
     }
 
-    private void saveFilterParams(Field field, List<FilterParam> filterParams) throws BadRequestAlertException {
+    public void saveFilterParams(Field field, List<FilterParam> filterParams) throws BadRequestAlertException {
         for (var filter : filterParams) {
             if (filter.getFilterParamStatus() == FilterParamStatus.NEW && filter.getId() == null) {
                 filter.setField(field);
@@ -109,7 +109,7 @@ public class FieldServiceImpl implements FieldService {
         }
     }
 
-    private void updateFilterParams(Field field, List<FilterParam> filterParams) throws BadRequestAlertException {
+    public void updateFilterParams(Field field, List<FilterParam> filterParams) throws BadRequestAlertException {
         for (var filter : filterParams) {
             switch (filter.getFilterParamStatus()) {
                 case REMOVED -> {

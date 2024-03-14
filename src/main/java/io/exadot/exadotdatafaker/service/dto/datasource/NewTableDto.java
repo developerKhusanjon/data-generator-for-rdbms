@@ -1,4 +1,4 @@
-package io.exadot.exadotdatafaker.service.dto.db;
+package io.exadot.exadotdatafaker.service.dto.datasource;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -11,13 +11,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UpdateTableDto {
+public class NewTableDto {
     @Positive
     private Long dataSourceId;
-    @Positive
-    private Long id;
-    @NotBlank
-    private String generatedKey;
     @NotBlank
     private String tableName;
+    @NotBlank
+    private String generatedKey;
 }

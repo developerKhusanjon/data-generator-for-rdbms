@@ -1,6 +1,6 @@
 package io.exadot.exadotdatafaker.repo;
 
-import io.exadot.exadotdatafaker.entity.db.FilterParam;
+import io.exadot.exadotdatafaker.entity.datasource.FilterParam;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

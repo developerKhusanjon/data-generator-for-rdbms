@@ -2,8 +2,8 @@ package io.exadot.exadotdatafaker.generator;
 
 import io.exadot.exadotdatafaker.controller.exceptions.InvalidFakerResources;
 import io.exadot.exadotdatafaker.controller.exceptions.ResourceNotFoundException;
-import io.exadot.exadotdatafaker.service.dto.db.FieldDto;
-import io.exadot.exadotdatafaker.service.dto.db.FilterParamsDto;
+import io.exadot.exadotdatafaker.service.dto.datasource.FieldDto;
+import io.exadot.exadotdatafaker.service.dto.datasource.FilterParamsDto;
 import io.exadot.exadotdatafaker.service.dto.enums.FilterParamStatus;
 import net.datafaker.Faker;
 

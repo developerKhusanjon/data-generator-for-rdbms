@@ -1,4 +1,4 @@
-package io.exadot.exadotdatafaker.entity.db;
+package io.exadot.exadotdatafaker.entity.datasource;
 
 import io.exadot.exadotdatafaker.entity.enums.DatabaseType;
 import jakarta.persistence.*;

@@ -1,6 +1,5 @@
-package io.exadot.exadotdatafaker.entity.db;
+package io.exadot.exadotdatafaker.entity.datasource;
 
-import io.exadot.exadotdatafaker.entity.db.Field;
 import io.exadot.exadotdatafaker.service.dto.enums.FilterParamStatus;
 import jakarta.persistence.*;
 import lombok.*;

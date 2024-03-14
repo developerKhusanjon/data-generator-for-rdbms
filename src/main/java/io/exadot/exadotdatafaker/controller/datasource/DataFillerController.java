@@ -1,4 +1,4 @@
-package io.exadot.exadotdatafaker.controller;
+package io.exadot.exadotdatafaker.controller.datasource;
 
 import io.exadot.exadotdatafaker.service.DataFillerService;
 import lombok.RequiredArgsConstructor;

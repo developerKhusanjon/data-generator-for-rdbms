@@ -1,12 +1,12 @@
-package io.exadot.exadotdatafaker.controller;
+package io.exadot.exadotdatafaker.controller.datasource;
 
 import io.exadot.exadotdatafaker.controller.exceptions.BadRequestAlertException;
 import io.exadot.exadotdatafaker.service.TableService;
 import io.exadot.exadotdatafaker.service.dto.*;
-import io.exadot.exadotdatafaker.service.dto.db.FieldDto;
-import io.exadot.exadotdatafaker.service.dto.db.NewTableDto;
-import io.exadot.exadotdatafaker.service.dto.db.TableDto;
-import io.exadot.exadotdatafaker.service.dto.db.UpdateTableDto;
+import io.exadot.exadotdatafaker.service.dto.datasource.FieldDto;
+import io.exadot.exadotdatafaker.service.dto.datasource.NewTableDto;
+import io.exadot.exadotdatafaker.service.dto.datasource.TableDto;
+import io.exadot.exadotdatafaker.service.dto.datasource.UpdateTableDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -63,7 +63,7 @@ public class TableController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "if table field created successfully, return created field properties",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TableDto.class))}),
+                            schema = @Schema(implementation = FieldDto.class))}),
             @ApiResponse(responseCode = "409", description = "required fields",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Map.class),
                             examples = {@ExampleObject(value = "{name:'name is required'...}")})),
@@ -72,7 +72,7 @@ public class TableController {
     @PostMapping("/{id}/fields")
     public ResponseEntity<FieldDto> createTableField(@PathVariable Long id, @RequestBody @Valid FieldDto field) throws BadRequestAlertException {
         if(field.getId() != null){
-            throw new BadRequestAlertException("Field Id must be null", "DataSource","id");
+            throw new BadRequestAlertException("Field Id must be null", "Field", "id");
         }
         return new ResponseEntity<>(tableService.createTableField(id, field), HttpStatus.CREATED);
     }
@@ -90,7 +90,7 @@ public class TableController {
     @PutMapping("/{id}/fields")
     public ResponseEntity<FieldDto> updateTableField(@PathVariable Long id, @RequestBody @Valid FieldDto field) throws BadRequestAlertException {
         if(field.getId() == null){
-            throw new BadRequestAlertException("Field Id must not be null", "Field","id");
+            throw new BadRequestAlertException("Field Id must not be null", "Field", "id");
         }
 
         return ResponseEntity.ok(tableService.updateTableField(field, id));

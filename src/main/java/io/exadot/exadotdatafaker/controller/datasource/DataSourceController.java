@@ -1,10 +1,10 @@
-package io.exadot.exadotdatafaker.controller;
+package io.exadot.exadotdatafaker.controller.datasource;
 
 import io.exadot.exadotdatafaker.controller.exceptions.BadRequestAlertException;
 import io.exadot.exadotdatafaker.service.DataSourceService;
 import io.exadot.exadotdatafaker.service.dto.AlertResponseDto;
-import io.exadot.exadotdatafaker.service.dto.db.DataSourceDto;
-import io.exadot.exadotdatafaker.service.dto.db.TableDto;
+import io.exadot.exadotdatafaker.service.dto.datasource.DataSourceDto;
+import io.exadot.exadotdatafaker.service.dto.datasource.TableDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -63,9 +63,9 @@ public class DataSourceController {
         return new ResponseEntity<>(dataSourceService.createDataSource(dataSourceDto), HttpStatus.CREATED);
     }
 
-    @Operation(description = "Get all datasources")
+    @Operation(description = "Get all datasource")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "if datasources fetched successfully, return fetched data",
+            @ApiResponse(responseCode = "200", description = "if datasource fetched successfully, return fetched data",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = DataSourceDto.class))}),
             @ApiResponse(responseCode = "404", description = "Not found BadRequestAlert exception",

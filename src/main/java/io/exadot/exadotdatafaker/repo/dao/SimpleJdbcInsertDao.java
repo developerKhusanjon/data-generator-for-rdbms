@@ -2,7 +2,7 @@ package io.exadot.exadotdatafaker.repo.dao;
 
 import io.exadot.exadotdatafaker.controller.exceptions.ResourceNotFoundException;
 import io.exadot.exadotdatafaker.service.dto.AlertResponseDto;
-import io.exadot.exadotdatafaker.service.dto.db.DataSourceDto;
+import io.exadot.exadotdatafaker.service.dto.datasource.DataSourceDto;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;

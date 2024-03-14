@@ -1,7 +1,7 @@
 package io.exadot.exadotdatafaker.service.mapper;
 
-import io.exadot.exadotdatafaker.entity.db.TableEntity;
-import io.exadot.exadotdatafaker.service.dto.db.TableDto;
+import io.exadot.exadotdatafaker.entity.datasource.TableEntity;
+import io.exadot.exadotdatafaker.service.dto.datasource.TableDto;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 

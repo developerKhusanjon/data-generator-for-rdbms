@@ -2,10 +2,10 @@ package io.exadot.exadotdatafaker.service;
 
 import io.exadot.exadotdatafaker.controller.exceptions.BadRequestAlertException;
 import io.exadot.exadotdatafaker.service.dto.*;
-import io.exadot.exadotdatafaker.service.dto.db.FieldDto;
-import io.exadot.exadotdatafaker.service.dto.db.NewTableDto;
-import io.exadot.exadotdatafaker.service.dto.db.TableDto;
-import io.exadot.exadotdatafaker.service.dto.db.UpdateTableDto;
+import io.exadot.exadotdatafaker.service.dto.datasource.FieldDto;
+import io.exadot.exadotdatafaker.service.dto.datasource.NewTableDto;
+import io.exadot.exadotdatafaker.service.dto.datasource.TableDto;
+import io.exadot.exadotdatafaker.service.dto.datasource.UpdateTableDto;
 
 import java.util.List;
 

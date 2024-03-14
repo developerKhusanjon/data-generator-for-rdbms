@@ -3,10 +3,11 @@ package io.exadot.exadotdatafaker.service.impl;
 import io.exadot.exadotdatafaker.controller.exceptions.BadRequestAlertException;
 import io.exadot.exadotdatafaker.repo.dao.SimpleJdbcInsertDao;
 import io.exadot.exadotdatafaker.service.dto.AlertResponseDto;
-import io.exadot.exadotdatafaker.service.dto.db.DBProps;
+import io.exadot.exadotdatafaker.service.dto.datasource.DBProps;
 import io.exadot.exadotdatafaker.generator.DataGenerator;
 import io.exadot.exadotdatafaker.repo.TableRepository;
 import io.exadot.exadotdatafaker.service.DataFillerService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ public class DataFillerServiceImpl implements DataFillerService {
     private final TableRepository tableRepository;
     private final SimpleJdbcInsertDao simpleJdbcInsertDao;
 
+    @Transactional
     @Override
     public AlertResponseDto populateWithFakeData(DBProps DBProps) throws BadRequestAlertException, InvocationTargetException {
 

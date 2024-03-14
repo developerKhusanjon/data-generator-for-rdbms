@@ -1,20 +1,20 @@
 package io.exadot.exadotdatafaker.service.impl;
 
 import io.exadot.exadotdatafaker.controller.exceptions.BadRequestAlertException;
-import io.exadot.exadotdatafaker.entity.db.TableEntity;
+import io.exadot.exadotdatafaker.entity.datasource.TableEntity;
 import io.exadot.exadotdatafaker.repo.TableRepository;
 import io.exadot.exadotdatafaker.service.FieldService;
 import io.exadot.exadotdatafaker.service.TableService;
 import io.exadot.exadotdatafaker.service.dto.*;
-import io.exadot.exadotdatafaker.service.dto.db.FieldDto;
-import io.exadot.exadotdatafaker.service.dto.db.NewTableDto;
-import io.exadot.exadotdatafaker.service.dto.db.TableDto;
-import io.exadot.exadotdatafaker.service.dto.db.UpdateTableDto;
+import io.exadot.exadotdatafaker.service.dto.datasource.FieldDto;
+import io.exadot.exadotdatafaker.service.dto.datasource.NewTableDto;
+import io.exadot.exadotdatafaker.service.dto.datasource.TableDto;
+import io.exadot.exadotdatafaker.service.dto.datasource.UpdateTableDto;
 import io.exadot.exadotdatafaker.service.mapper.TableMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -110,30 +110,4 @@ public class TableServiceImpl implements TableService {
     public boolean checkByDataSourceId(Long id) {
         return tableRepository.existsByDataSourceId(id);
     }
-
-//    private void saveFilterParams(TableEntity table, List<Field> fields) throws BadRequestAlertException {
-//        for (var field : fields) {
-//            switch (field.getFieldStatus()) {
-//                case DELETE -> {
-//                    if (field.getId() == null || field.getId() <= 0)
-//                        throw new BadRequestAlertException("Field id must not be null and must be positive", "Field",  "id", HttpStatus.BAD_REQUEST);
-//                    fieldService.deleteById(fi)
-//                }
-//                case NEW -> {
-//                    if (filter.getId() != null)
-//                        throw new BadRequestAlertException("Filter id must be null for NEW status", "Filter", "Id", HttpStatus.BAD_REQUEST);
-//                    filter.setField(field);
-//                    filter.setFilterParamStatus(FilterParamStatus.ACTIVE);
-//                    filterParamRepository.save(filter);
-//                }
-//                case CHANGED -> {
-//                    if (filter.getId() == null)
-//                        throw new BadRequestAlertException("Filter id must not be null for CHANGED status", "Filter", "Id", HttpStatus.BAD_REQUEST);
-//                    filter.setField(field);
-//                    filter.setFilterParamStatus(FilterParamStatus.ACTIVE);
-//                    filterParamRepository.save(filter);
-//                }
-//            }
-//        }
-//    }
 }

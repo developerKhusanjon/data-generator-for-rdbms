@@ -1,4 +1,4 @@
-package io.exadot.exadotdatafaker.service.dto.generator;
+package io.exadot.exadotdatafaker.service.dto.category;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -13,12 +13,14 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class DataTypeDto {
+public class CategoryDto {
     private Long id;
     @NotBlank
     private String name;
+    @NotBlank
+    private String value;
     private String description;
 
     @NotEmpty
-    private List<DataFieldDto> fields;
+    private List<CategoryTypeDto> categoryTypes;
 }
