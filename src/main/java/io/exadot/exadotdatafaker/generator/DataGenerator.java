@@ -15,7 +15,7 @@ import java.util.*;
 public class DataGenerator {
     private static final Faker faker = new Faker();
 
-    public static List<Map<String, Object>> generate(List<FieldDto> fields, int count) throws InvocationTargetException {
+    public static List<Map<String, Object>> generate(List<FieldDto> fields, long count) throws InvocationTargetException {
         List<Map<String, Object>> result = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {

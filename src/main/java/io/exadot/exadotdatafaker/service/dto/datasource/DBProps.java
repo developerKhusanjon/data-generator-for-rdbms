@@ -14,5 +14,5 @@ public class DBProps {
     @NotNull
     private TableDto table;
     @Positive
-    private Integer count;
+    private Long count;
 }
