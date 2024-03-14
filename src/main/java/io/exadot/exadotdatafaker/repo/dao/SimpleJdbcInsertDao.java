@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 
 @Component
@@ -26,17 +27,20 @@ public class SimpleJdbcInsertDao {
     }
 
     @Transactional
-    public AlertResponseDto insertAll(DataSourceDto dataSource, List<Map<String, Object>> datalist, String table, String generatedKey) {
+    public AlertResponseDto insertAll(DataSourceDto dataSource, Stream<Map<String, Object>> dataStream, String table, String generatedKey) {
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(buildDataSource(dataSource))
                 .withTableName(table).usingGeneratedKeyColumns(generatedKey);
 
-        try {
-            String[] columns = datalist.get(0).keySet().toArray(new String[0]);
-            simpleJdbcInsert.usingColumns(columns);
-            simpleJdbcInsert.executeBatch(datalist.toArray(new Map[0]));
-        } catch (Exception e) {
-            throw new ResourceNotFoundException("Failed to save data\n" + e.getMessage());
-        }
+        dataStream.forEach(data -> {
+                    try {
+                        String[] columns = data.keySet().toArray(new String[0]);
+                        simpleJdbcInsert.usingColumns(columns);
+                        simpleJdbcInsert.execute(data);
+                    } catch (Exception e) {
+                        throw new ResourceNotFoundException("Failed to save data\n" + e.getMessage());
+                    }
+                }
+        );
 
         return new AlertResponseDto("Data inserted successfully", true);
     }

@@ -1,0 +1,58 @@
+version: '1.0'
+
+services:
+  postgres:
+    container_name: faker_db
+    image: postgres:alpine3.19
+    environment:
+      POSTGRES_DB: data_faker_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5433:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@mymail.ru
+      PGADMIN_DEFAULT_PASSWORD: 1
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - 90:80
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  exedot-data-faker:
+    container_name: data-faker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+      - pgadmin
+    ports:
+      - "9090:9090"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+networks:
+  #  hostnet:
+  #    external: true
+  #    name: host
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:
