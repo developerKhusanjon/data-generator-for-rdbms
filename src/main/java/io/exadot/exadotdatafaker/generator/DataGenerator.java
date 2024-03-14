@@ -5,33 +5,42 @@ import io.exadot.exadotdatafaker.controller.exceptions.ResourceNotFoundException
 import io.exadot.exadotdatafaker.service.dto.datasource.FieldDto;
 import io.exadot.exadotdatafaker.service.dto.datasource.FilterParamsDto;
 import io.exadot.exadotdatafaker.service.dto.enums.FilterParamStatus;
+import lombok.SneakyThrows;
 import net.datafaker.Faker;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 public class DataGenerator {
     private static final Faker faker = new Faker();
 
-    public static List<Map<String, Object>> generate(List<FieldDto> fields, long count) throws InvocationTargetException {
-        List<Map<String, Object>> result = new ArrayList<>();
+    public static Stream<Map<String, Object>> generate(List<FieldDto> fields, long count) throws InvocationTargetException {
+        return Stream.iterate(0, i -> i < count, i -> i + 1).map(
+                new Function<Integer, Map<String, Object>>() {
+                    @SneakyThrows
+                    @Override
+                    public Map<String, Object> apply(Integer integer) {
+                        return generateOne(fields);
+                    }
+                }
+        );
+    }
 
-        for (int i = 0; i < count; i++) {
-            Map<String, Object> data = new LinkedHashMap<>();
+    public static Map<String, Object> generateOne(List<FieldDto> fields) throws InvocationTargetException {
+        Map<String, Object> data = new LinkedHashMap<>();
 
-            for (FieldDto value : fields) {
-                String type = value.getGenerateBaseType();
-                String field = value.getGenerateValue();
-                String fieldName = value.getFieldName();
-                data.put(fieldName, generator(type, field, value));
-            }
-
-            result.add(data);
+        for (FieldDto value : fields) {
+            String type = value.getGenerateBaseType();
+            String field = value.getGenerateValue();
+            String fieldName = value.getFieldName();
+            data.put(fieldName, generator(type, field, value));
         }
 
-        return result;
+        return data;
     }
 
     /**
