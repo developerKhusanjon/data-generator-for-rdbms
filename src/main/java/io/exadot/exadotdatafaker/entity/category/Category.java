@@ -20,6 +20,6 @@ public class Category {
     private String value;
     private String description;
 
-    @OneToMany(mappedBy = "dataType", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "category", cascade = {CascadeType.ALL})
     private List<CategoryType> categoryTypes;
 }
