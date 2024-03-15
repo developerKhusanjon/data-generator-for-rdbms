@@ -7,6 +7,7 @@ import io.exadot.exadotdatafaker.service.dto.datasource.DBProps;
 import io.exadot.exadotdatafaker.generator.DataGenerator;
 import io.exadot.exadotdatafaker.repo.TableRepository;
 import io.exadot.exadotdatafaker.service.DataFillerService;
+import io.exadot.exadotdatafaker.service.dto.datasource.FieldDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,11 @@ public class DataFillerServiceImpl implements DataFillerService {
 
         var generatedDataList = DataGenerator.generate(DBProps.getTable().getFields(), DBProps.getCount());
 
-        return simpleJdbcInsertDao.insertAll(
-                DBProps.getDataSource(), generatedDataList, DBProps.getTable().getTableName(), DBProps.getTable().getGeneratedKey());
+        String[] columns = DBProps.getTable().getFields()
+                .stream().map(FieldDto::getFieldName).toList().toArray(new String[0]);
+
+        return simpleJdbcInsertDao.insertAll(DBProps.getDataSource(), generatedDataList,
+                DBProps.getTable().getSchemaName(), DBProps.getTable().getTableName(), DBProps.getTable().getGeneratedKey(), columns);
     }
 
     @Override

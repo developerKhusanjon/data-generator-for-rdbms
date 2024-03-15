@@ -16,5 +16,6 @@ public class TableDto {
     private Long dataSourceId;
     private String generatedKey;
     private String tableName;
+    private String schemaName;
     private List<FieldDto> fields;
 }
