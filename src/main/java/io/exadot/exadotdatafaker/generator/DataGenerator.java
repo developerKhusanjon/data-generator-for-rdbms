@@ -12,13 +12,16 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class DataGenerator {
     private static final Faker faker = new Faker();
 
-    public static Stream<Map<String, Object>> generate(List<FieldDto> fields, long count) throws InvocationTargetException {
+    public static Stream<Map<String, Object>> generate(List<FieldDto> fields, long count) {
+
         return Stream.iterate(0, i -> i < count, i -> i + 1).map(
                 new Function<Integer, Map<String, Object>>() {
                     @SneakyThrows

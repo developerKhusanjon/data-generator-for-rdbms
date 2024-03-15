@@ -9,13 +9,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
-import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Stream;
 
 
 @Component
 public class SimpleJdbcInsertDao {
+    private final ExecutorService virtualThreadPerTaskExecutor = Executors.newVirtualThreadPerTaskExecutor();
 
     private DataSource buildDataSource(DataSourceDto dataSource) {
         DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
@@ -31,7 +33,7 @@ public class SimpleJdbcInsertDao {
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(buildDataSource(dataSource))
                 .withTableName(table).usingGeneratedKeyColumns(generatedKey);
 
-        dataStream.forEach(data -> {
+        virtualThreadPerTaskExecutor.execute(() -> dataStream.forEach(data -> {
                     try {
                         String[] columns = data.keySet().toArray(new String[0]);
                         simpleJdbcInsert.usingColumns(columns);
@@ -40,7 +42,7 @@ public class SimpleJdbcInsertDao {
                         throw new ResourceNotFoundException("Failed to save data\n" + e.getMessage());
                     }
                 }
-        );
+        ));
 
         return new AlertResponseDto("Data inserted successfully", true);
     }
