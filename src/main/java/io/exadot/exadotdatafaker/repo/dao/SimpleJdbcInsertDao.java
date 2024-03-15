@@ -21,7 +21,8 @@ public class SimpleJdbcInsertDao {
 
     private DataSource buildDataSource(DataSourceDto dataSource) {
         DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.driverClassName(dataSource.getDriver());
+        dataSourceBuilder.driverClassName(
+                dataSource.getDriver().isEmpty() ? dataSource.getDatabaseType().getDriverClassName() : dataSource.getDriver());
         dataSourceBuilder.url(dataSource.getUrl());
         dataSourceBuilder.username(dataSource.getUsername());
         dataSourceBuilder.password(dataSource.getPassword());
@@ -29,15 +30,17 @@ public class SimpleJdbcInsertDao {
     }
 
     @Transactional
-    public AlertResponseDto insertAll(DataSourceDto dataSource, Stream<Map<String, Object>> dataStream, String table, String generatedKey) {
+    public AlertResponseDto insertAll(DataSourceDto dataSource, Stream<Map<String, Object>> dataStream,
+                                      String schema, String table, String generatedKey, String[] columns) {
+
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(buildDataSource(dataSource))
-                .withTableName(table).usingGeneratedKeyColumns(generatedKey);
+                .withSchemaName(schema).withTableName(table)
+                        .usingColumns(columns)
+                .usingGeneratedKeyColumns(generatedKey);
 
         virtualThreadPerTaskExecutor.execute(() -> dataStream.forEach(data -> {
                     try {
-                        String[] columns = data.keySet().toArray(new String[0]);
-                        simpleJdbcInsert.usingColumns(columns);
-                        simpleJdbcInsert.execute(data);
+                        simpleJdbcInsert.executeBatch(data);
                     } catch (Exception e) {
                         throw new ResourceNotFoundException("Failed to save data\n" + e.getMessage());
                     }

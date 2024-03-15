@@ -19,5 +19,7 @@ public class TableEntity {
 
     private String tableName;
 
+    private String schemaName;
+
     private Long dataSourceId;
 }

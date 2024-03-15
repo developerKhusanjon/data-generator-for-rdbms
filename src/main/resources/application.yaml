@@ -8,10 +8,14 @@ spring:
     url: jdbc:postgresql://localhost:5432/data_faker_db
     user: user
     password: pass
+    liquibase-schema: faker
+    default-schema: faker
   datasource:
     url: jdbc:postgresql://localhost:5432/data_faker_db
     username: user
     password: pass
+    hikari:
+      schema: faker
   jpa:
     show-sql: true
     hibernate:
