@@ -21,19 +21,43 @@ public class DataGenerator {
     private static final Faker faker = new Faker();
 
     public static Stream<Map<String, Object>> generate(List<FieldDto> fields, long count) {
-
-        return Stream.iterate(0, i -> i < count, i -> i + 1).map(
-                new Function<Integer, Map<String, Object>>() {
-                    @SneakyThrows
-                    @Override
-                    public Map<String, Object> apply(Integer integer) {
-                        return generateOne(fields);
-                    }
-                }
-        );
+        return generateStream(count, fields);
     }
 
-    public static Map<String, Object> generateOne(List<FieldDto> fields) throws InvocationTargetException {
+    public static Stream<Stream<Map<String, Object>>> generateForInsertion(List<FieldDto> fields, long count, long partition) {
+        return Stream
+                .iterate(count, i -> i > 0, i -> i - partition)
+                .map(i -> generateStream(i < partition ? i : partition, fields));
+    }
+
+    private static List<Map<String, Object>> generateList(Long bound, List<FieldDto> fields) {
+        List<Map<String, Object>> datalist = new ArrayList<>();
+
+        for (int j = 0; j < bound; j++) {
+            try {
+                datalist.add(generateOne(fields));
+            } catch (InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return datalist;
+    }
+
+    private static Stream<Map<String, Object>> generateStream(Long bound, List<FieldDto> fields) {
+        return Stream
+                .iterate(0, i -> i < bound, i -> i + 1)
+                .map(new Function<Integer, Map<String, Object>>() {
+                         @SneakyThrows
+                         @Override
+                         public Map<String, Object> apply(Integer integer) {
+                             return generateOne(fields);
+                         }
+                     }
+                );
+    }
+
+    private static Map<String, Object> generateOne(List<FieldDto> fields) throws InvocationTargetException {
         Map<String, Object> data = new LinkedHashMap<>();
 
         for (FieldDto value : fields) {
