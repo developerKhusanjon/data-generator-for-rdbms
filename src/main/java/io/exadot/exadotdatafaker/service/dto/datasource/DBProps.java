@@ -15,4 +15,6 @@ public class DBProps {
     private TableDto table;
     @Positive
     private Long count;
+    @Positive
+    private Long partitionCount;
 }

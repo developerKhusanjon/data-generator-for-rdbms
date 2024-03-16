@@ -23,15 +23,15 @@ public class DataFillerServiceImpl implements DataFillerService {
 
     @Transactional
     @Override
-    public AlertResponseDto populateWithFakeData(DBProps DBProps) throws BadRequestAlertException, InvocationTargetException {
+    public AlertResponseDto populateWithFakeData(DBProps dbProps) throws BadRequestAlertException, InvocationTargetException {
 
-        var generatedDataList = DataGenerator.generate(DBProps.getTable().getFields(), DBProps.getCount());
+        var generatedStream = DataGenerator.generateForInsertion(dbProps.getTable().getFields(), dbProps.getCount(), dbProps.getPartitionCount());
 
-        String[] columns = DBProps.getTable().getFields()
+        String[] columns = dbProps.getTable().getFields()
                 .stream().map(FieldDto::getFieldName).toList().toArray(new String[0]);
 
-        return simpleJdbcInsertDao.insertAll(DBProps.getDataSource(), generatedDataList,
-                DBProps.getTable().getSchemaName(), DBProps.getTable().getTableName(), DBProps.getTable().getGeneratedKey(), columns);
+        return simpleJdbcInsertDao.insertAll(dbProps.getDataSource(), generatedStream,
+                dbProps.getTable().getSchemaName(), dbProps.getTable().getTableName(), dbProps.getTable().getGeneratedKey(), columns);
     }
 
     @Override
