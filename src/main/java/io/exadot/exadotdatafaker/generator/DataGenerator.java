@@ -12,8 +12,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -99,8 +97,8 @@ public class DataGenerator {
                     .filter(method -> method.getName().equals(fName)).toArray(Method[]::new));
 
             if (methods.get().length > 1) {
-                String[] expectedTypes = field.getFilterParams()
-                        .stream().filter(p -> p.getFilterParamStatus() == FilterParamStatus.ACTIVE).map(FilterParamsDto::getValueType).toArray(String[]::new);
+                String[] expectedTypes = field.getFilterParams().stream()
+                        .filter(p -> p.getFilterParamStatus() == FilterParamStatus.ACTIVE).map(FilterParamsDto::getValueType).toArray(String[]::new);
 
                 Class<?>[] expectedParams = parameterTypes(expectedTypes);
 
