@@ -1,11 +1,11 @@
 package io.exadot.exadotdatafaker.service.impl;
 
 import io.exadot.exadotdatafaker.controller.exceptions.BadRequestAlertException;
+import io.exadot.exadotdatafaker.entity.audit.InsertionAudit;
 import io.exadot.exadotdatafaker.repo.dao.SimpleJdbcInsertDao;
 import io.exadot.exadotdatafaker.service.dto.AlertResponseDto;
 import io.exadot.exadotdatafaker.service.dto.datasource.DBProps;
 import io.exadot.exadotdatafaker.generator.DataGenerator;
-import io.exadot.exadotdatafaker.repo.TableRepository;
 import io.exadot.exadotdatafaker.service.DataFillerService;
 import io.exadot.exadotdatafaker.service.dto.datasource.FieldDto;
 import jakarta.transaction.Transactional;
@@ -18,12 +18,16 @@ import java.lang.reflect.InvocationTargetException;
 @Service
 public class DataFillerServiceImpl implements DataFillerService {
 
-    private final TableRepository tableRepository;
     private final SimpleJdbcInsertDao simpleJdbcInsertDao;
 
     @Transactional
     @Override
     public AlertResponseDto populateWithFakeData(DBProps dbProps) throws BadRequestAlertException, InvocationTargetException {
+//        InsertionAudit insertionAudit  = InsertionAudit.builder()
+//                .dataSourceId(dbProps.getDataSource().getId()).dataSourceName(dbProps.getDataSource().getName())
+//                .tableId(dbProps.getTable().getId()).tableName(dbProps.getTable().getTableName())
+//                .startTime(LocalDateTime.now())
+//                .build();
 
         var generatedStream = DataGenerator.generateForInsertion(dbProps.getTable().getFields(), dbProps.getCount(), dbProps.getPartitionCount());
 

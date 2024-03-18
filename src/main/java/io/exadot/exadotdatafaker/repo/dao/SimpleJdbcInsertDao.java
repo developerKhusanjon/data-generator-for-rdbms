@@ -2,6 +2,7 @@ package io.exadot.exadotdatafaker.repo.dao;
 
 import io.exadot.exadotdatafaker.controller.exceptions.ResourceNotFoundException;
 import io.exadot.exadotdatafaker.service.dto.AlertResponseDto;
+import io.exadot.exadotdatafaker.service.dto.audit.InsertionAuditDto;
 import io.exadot.exadotdatafaker.service.dto.datasource.DataSourceDto;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
